@@ -184,7 +184,7 @@ all_results = []
 # rsync -avzh /Users/hanchunxu/Desktop/deep_learning/data/ s220311@transfer.gbar.dtu.dk:~/deep_learning_project/data/
 # Define the root folder and split folders
 root_folder = "/zhome/fb/b/174167/deep_learning_project/data/"
-results_path = "/zhome/fb/b/174167/deep_learning_project/results_basic"
+results_path = "/zhome/fb/b/174167/deep_learning_project/results_basic/"
 os.makedirs(results_path, exist_ok=True)
 split_folders = [f"split_{i}" for i in range(1, 6)]
 
