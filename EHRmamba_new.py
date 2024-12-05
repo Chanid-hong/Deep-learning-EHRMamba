@@ -230,9 +230,6 @@ def preprocess_dataset(test):
     return dataset
 
 
-# Ensure the new model class is imported or defined above
-# from your_module import NewMambaMortalityRisk
-
 # Load the .npy file and preprocess the dataset
 test = np.load('/Users/hanchunxu/Desktop/deep_learning/P12data/split_1/test_physionet2012_1.npy', allow_pickle=True)
 processed_dataset = preprocess_dataset(test)
