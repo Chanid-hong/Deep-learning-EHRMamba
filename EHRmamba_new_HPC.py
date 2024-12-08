@@ -273,7 +273,7 @@ for split_idx, split_folder in enumerate(split_folders, start=1):
     early_stopping = EarlyStopping(monitor="val_loss", patience=5, mode="min")
 
     trainer = Trainer(
-        max_epochs=10, accelerator="gpu" if torch.cuda.is_available() else "cpu",
+        max_epochs=50, accelerator="gpu" if torch.cuda.is_available() else "cpu",
         callbacks=[checkpoint_callback, early_stopping]
     )
     trainer.fit(model, train_loader, val_loader)
@@ -281,15 +281,6 @@ for split_idx, split_folder in enumerate(split_folders, start=1):
     best_model_path = checkpoint_callback.best_model_path
     model = NewMambaMortalityRisk.load_from_checkpoint(best_model_path)
 
-    # Ensure the model is on GPU
-    device = torch.device("cuda")  # Use the GPU
-    model = model.to(device)  # Move the model to GPU
-
-    # Evaluate and save results
-    best_model_path = checkpoint_callback.best_model_path
-    model = NewMambaMortalityRisk.load_from_checkpoint(best_model_path)
-    # Evaluate the model on the test set
-    print(f"Evaluating on {split_folder} test set...")
     # Ensure the model is on GPU
     device = torch.device("cuda")  # Use the GPU
     model = model.to(device)  # Move the model to GPU
@@ -347,13 +338,13 @@ for split_idx, split_folder in enumerate(split_folders, start=1):
     plt.close()
 
     plt.figure()
-    plt.plot(train_losses, label="Training Loss")
-    plt.plot(val_losses, label="Validation Loss")
-    plt.xlabel("Epoch")
+    plt.plot(range(len(train_losses)), train_losses, label="Training Loss")
+    plt.plot(range(len(val_losses)), val_losses, label="Validation Loss")
+    plt.xlabel("Epochs")
     plt.ylabel("Loss")
-    plt.title(f"Loss Curve for {split_folder}")
+    plt.title(f"Loss Curve for split_{split_idx}")
     plt.legend()
-    plt.savefig(os.path.join(results_path, f"{split_folder}_loss_curve.png"))
+    plt.savefig(os.path.join(results_path, f"split_{split_idx}_loss_curve.png"))
     plt.close()
 
 results_df = pd.DataFrame(all_results)
